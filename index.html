@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+    <style>
+        body {
+            background: #181818;
+            color: #f5f5f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #222;
+            padding: 2rem 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            min-width: 320px;
+            max-width: 90vw;
+        }
+        h1 {
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input[type="text"] {
+            background: #181818;
+            border: 1px solid #444;
+            color: #f5f5f5;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .options {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        button {
+            background: #111;
+            color: #f5f5f5;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #333;
+        }
+        .flash {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            background: #2a2a2a;
+            color: #ff6b6b;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monochrome YouTube Downloader</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <form method="post">
+            <input type="text" name="url" placeholder="Enter YouTube URL" required>
+            <div class="options">
+                <label><input type="radio" name="mode" value="video" checked> Video (up to 4K)</label>
+                <label><input type="radio" name="mode" value="audio"> Audio Only</label>
+            </div>
+            <button type="submit">Download</button>
+        </form>
+    </div>
+</body>
+</html>
