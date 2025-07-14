@@ -7,7 +7,7 @@
     <style>
         body {
             background: #181818;
-            color: #f5f5f5;
+            color: #fff;
             font-family: 'Segoe UI', Arial, sans-serif;
             display: flex;
             flex-direction: column;
@@ -17,10 +17,10 @@
             margin: 0;
         }
         .container {
-            background: #222;
+            background: #232323;
             padding: 2rem 2.5rem;
             border-radius: 1rem;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 24px 0 #000a;
             min-width: 320px;
             max-width: 90vw;
         }
@@ -32,67 +32,84 @@
         form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
         }
-        input[type="text"] {
+        input[type="text"], input[type="file"] {
             background: #181818;
             border: 1px solid #444;
-            color: #f5f5f5;
-            padding: 0.75rem 1rem;
+            color: #fff;
+            padding: 0.7rem 1rem;
             border-radius: 0.5rem;
             font-size: 1rem;
         }
-        .options {
+        .radio-group {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+            gap: 2rem;
+            margin-bottom: 0.5rem;
         }
-        .options label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        label {
             font-size: 1rem;
+            color: #ccc;
         }
         button {
-            background: #111;
-            color: #f5f5f5;
+            background: #fff;
+            color: #181818;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 0.5rem;
             font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
             transition: background 0.2s;
         }
         button:hover {
-            background: #333;
+            background: #e0e0e0;
         }
         .flash {
             margin-bottom: 1rem;
-            padding: 0.75rem 1rem;
+            padding: 0.7rem 1rem;
             border-radius: 0.5rem;
-            background: #2a2a2a;
+            font-size: 1rem;
+        }
+        .flash-error {
+            background: #2d1a1a;
             color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        .flash-success {
+            background: #1a2d1a;
+            color: #6bff6b;
+            border: 1px solid #6bff6b;
+        }
+        .note {
+            color: #888;
             font-size: 0.95rem;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Monochrome YouTube Downloader</h1>
+        <h1>YouTube Downloader</h1>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
-              <div class="flash">{{ message }}</div>
+              <div class="flash flash-{{ category }}">{{ message }}</div>
             {% endfor %}
           {% endif %}
         {% endwith %}
-        <form method="post">
-            <input type="text" name="url" placeholder="Enter YouTube URL" required>
-            <div class="options">
-                <label><input type="radio" name="mode" value="video" checked> Video (up to 4K)</label>
-                <label><input type="radio" name="mode" value="audio"> Audio Only</label>
+        <form method="post" enctype="multipart/form-data">
+            <input type="text" name="url" placeholder="Paste YouTube URL here" required>
+            <div class="radio-group">
+                <label><input type="radio" name="mode" value="video" checked> Video (up to 4K, with audio)</label>
+                <label><input type="radio" name="mode" value="audio"> Audio (MP3)</label>
             </div>
+            <label>Cookies file (optional, for age/content/bot-restricted videos):
+                <input type="file" name="cookies" accept=".txt,.cookies">
+            </label>
             <button type="submit">Download</button>
+            <div class="note">If you see an authentication error, export your YouTube cookies as <b>cookies.txt</b> from your browser and upload it here.<br>
+            <a href="https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp" target="_blank" style="color:#aaa;">How to export cookies?</a></div>
         </form>
     </div>
 </body>
